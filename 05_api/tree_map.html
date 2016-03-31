@@ -27,7 +27,7 @@
         }, {});
       });
     }
-  
+
     // Step 1: Create a tree map of 6 digit CIP courses offered by a specific University
     // Things to think about:
     // -- what will the API call to get this data be?
@@ -35,40 +35,40 @@
     var visualization = d3plus.viz()
       .container("#viz")
       .type("tree_map")
-      .data("http://usa.datawheel.us:5000/api/?sumlevel=6&show=cip&university=167358", function(data){
+      .data("http://db.datausa.io/api/?sumlevel=6&show=cip&university=167358", function(data){
         // Start by writing the datafold inline as a verbose for loop
         return datafold(data);
       })
       .id("cip")
       .size("grads_total");
-  
+
     // Step 2: Use attributes for label names
-    // Use this API call: http://usa.datawheel.us:5000/attrs/cip/
+    // Use this API call: http://db.datausa.io/attrs/cip/
     visualization
-      .attrs("http://usa.datawheel.us:5000/attrs/cip/", function(data){
-        
+      .attrs("http://db.datausa.io/attrs/cip/", function(data){
+
         // This is a good point to globalize the datafold function
         data = datafold(data);
-        
+
         // Attributes need to have a matching key/value
         data.forEach(function(d){
           d.cip = d.id;
         });
-        
+
         return data;
       })
       .text("name");
       // Talk about the "fetch" function here
-  
+
     // Step 3: Nest and color classes by their 2-digit grouping
     // Hint: go back and edit your attribute to return attributes for both levels!
     visualization
-      .attrs("http://usa.datawheel.us:5000/attrs/cip/", function(data){
+      .attrs("http://db.datausa.io/attrs/cip/", function(data){
         data = datafold(data);
         var return_obj = {"group": [], "cip": []};
         data.forEach(function(d){
           d.cip = d.id;
-          
+
           // Look back at the data cool to see the parents in the attributes
           d.group = d.cip.slice(0,2);
           if (d.id.length === 2) return_obj.group.push(d);
@@ -76,7 +76,7 @@
         });
         return return_obj;
       })
-      .data("http://usa.datawheel.us:5000/api/?sumlevel=6&show=cip&university=167358", function(data){
+      .data("http://db.datausa.io/api/?sumlevel=6&show=cip&university=167358", function(data){
         data = datafold(data);
         data.forEach(function(d){
           d.group = d.cip.slice(0,2);
@@ -85,11 +85,11 @@
       })
       .id(["group", "cip"])
       .color("group");
-  
+
     // Step 4: Create a UI toggle that compares male/female graduation rates
     // Hint: Ask Jonathan what we need to ask the API for ;-)
     visualization
-      .data("http://usa.datawheel.us:5000/api/?sumlevel=6&show=cip&university=167358&required=grads_total,grads_men,grads_women", function(data){
+      .data("http://db.datausa.io/api/?sumlevel=6&show=cip&university=167358&required=grads_total,grads_men,grads_women", function(data){
         // This is all the same stuff as before...
         data = datafold(data);
         data.forEach(function(d){
@@ -101,7 +101,7 @@
         "method": "size",
         "value": ["grads_total", "grads_men", "grads_women"]
       }]);
-  
+
     // Step 5: Format the text of the new size keys to be more legible
     // Hint: Don't forget a fallback for everything else
     visualization
@@ -111,7 +111,7 @@
         if (text === "grads_women") return "Female Graduates";
         return d3plus.string.title(text);
       }});
-  
+
     visualization.draw()
 
   </script>

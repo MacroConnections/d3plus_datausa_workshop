@@ -33,7 +33,7 @@
 
 <body>
 
-  <p>http://usa.datawheel.us:5000/api/?parameters</p>
+  <p>http://db.datausa.io/api/?parameters</p>
 
   <table>
     <tr>
@@ -80,7 +80,7 @@
     });
   }
 
-  d3.json("http://usa.datawheel.us:5000/attrs/cip/", function(err, data){
+  d3.json("http://db.datausa.io/attrs/cip/", function(err, data){
     data = datafold(data).sort(function(a, b){
       if(a.id < b.id) return -1;
       if(a.id > b.id) return 1;
@@ -97,7 +97,7 @@
       });
   });
 
-  d3.json("http://usa.datawheel.us:5000/attrs/university/", function(err, data){
+  d3.json("http://db.datausa.io/attrs/university/", function(err, data){
     data = datafold(data).sort(function(a, b){
       if(a.name < b.name) return -1;
       if(a.name > b.name) return 1;
@@ -116,7 +116,7 @@
 
   var generateURL = function() {
 
-    var url = "http://usa.datawheel.us:5000/api/";
+    var url = "http://db.datausa.io/api/";
     d3.selectAll("table tr").each(function(d, i){
       var tds = d3.select(this).selectAll("td")[0];
       var id = d3.select(tds[0]).text();

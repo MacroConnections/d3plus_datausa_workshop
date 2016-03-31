@@ -33,7 +33,7 @@
     var visualization = d3plus.viz()
       .container("#viz")
       .type("scatter")
-      .attrs("http://usa.datawheel.us:5000/attrs/cip/", function(data){
+      .attrs("http://db.datausa.io/attrs/cip/", function(data){
         data = datafold(data);
         var return_obj = {"group": [], "cip": []};
         data.forEach(function(d){
@@ -44,7 +44,7 @@
         });
         return return_obj;
       })
-      .data("http://usa.datawheel.us:5000/api/?sumlevel=6&show=cip&university=167358&required=grads_total,grads_men,grads_women", function(data){
+      .data("http://db.datausa.io/api/?sumlevel=6&show=cip&university=167358&required=grads_total,grads_men,grads_women", function(data){
         data = datafold(data);
         data.forEach(function(d){
           d.group = d.cip.slice(0,2);
@@ -72,4 +72,4 @@
     // -- visualization.legend({"filters": true})
 
   </script>
-</body>
+g</body>
